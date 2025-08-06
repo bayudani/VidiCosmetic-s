@@ -13,7 +13,7 @@ class GaleryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('gallery: view');
     }
 
     /**
@@ -21,7 +21,7 @@ class GaleryPolicy
      */
     public function view(User $user, Store_galery $storeGalery): bool
     {
-        return false;
+        return $user->can('gallery: view');
     }
 
     /**
@@ -29,7 +29,7 @@ class GaleryPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('gallery: create');
     }
 
     /**
@@ -37,7 +37,7 @@ class GaleryPolicy
      */
     public function update(User $user, Store_galery $storeGalery): bool
     {
-        return false;
+        return $user->can('gallery: update');
     }
 
     /**
@@ -45,7 +45,7 @@ class GaleryPolicy
      */
     public function delete(User $user, Store_galery $storeGalery): bool
     {
-        return false;
+        return $user->can('gallery: delete');
     }
 
     /**

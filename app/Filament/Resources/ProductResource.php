@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\OrderResource\Widgets\Transaction;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Filament\Resources\ProductResource\Widgets\ProductStatsOverview;
 use App\Models\Product;
+use Filament\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,10 +20,15 @@ use Illuminate\Support\Str;
 
 class ProductResource extends Resource
 {
+    protected static string $resource = ProductResource::class;
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-shopping-cart';
+    protected static ?string $navigationLabel = 'Produk';
+    protected static ?string $navigationGroup = 'Products';
 
+
+    
     public static function form(Form $form): Form
     {
         return $form

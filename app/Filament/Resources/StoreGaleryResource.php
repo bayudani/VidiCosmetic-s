@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StoreGaleryResource\Pages;
 use App\Filament\Resources\StoreGaleryResource\RelationManagers;
+use App\Models\Store_galery;
 use App\Models\StoreGalery;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,9 +16,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StoreGaleryResource extends Resource
 {
-    protected static ?string $model = StoreGalery::class;
+    protected static ?string $model = Store_galery::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-camera';
+    protected static ?string $navigationLabel = 'Galeri Toko';
+    protected static ?string $navigationGroup = 'Galeri';
 
     public static function form(Form $form): Form
     {
