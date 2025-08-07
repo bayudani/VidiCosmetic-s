@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+        /* Custom styles to extend Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FEFBFB;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .text-brand-pink {
+            color: #E9A8B5;
+        }
+        .bg-brand-pink {
+            background-color: #E9A8B5;
+        }
+        .bg-brand-pink-light {
+            background-color: #FCEFF2;
+        }
+        /* .border-brand-pink {
+            border-color: #E9A8B5;
+        } */
+        .carousel-container {
+            position: relative;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        @media (min-width: 768px) {
+            .carousel-slide {
+                min-width: 50%;
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-slide {
+                min-width: 25%;
+            }
+        }

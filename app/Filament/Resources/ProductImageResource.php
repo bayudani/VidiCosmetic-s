@@ -20,7 +20,7 @@ class ProductImageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-rectangle-group';
 
-        protected static ?string $navigationGroup = 'Products';
+    protected static ?string $navigationGroup = 'Products';
     protected static ?string $navigationLabel = 'Gambar Produk';
     public static function form(Form $form): Form
     {
