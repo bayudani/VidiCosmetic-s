@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product_image extends Model
 {
-    protected $fillable = ['product_id', 'image_path'];
+    protected $fillable = ['product_id', 'image_path','file_type'];
 
     /**
      * Get the product that owns the image.

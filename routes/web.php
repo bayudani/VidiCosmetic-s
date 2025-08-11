@@ -1,8 +1,9 @@
 <?php
 
+use App\Livewire\Auth\VerifyOtp;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home');
+Route::view('/', 'home')->name('home');
 
 Route::view('/shop','shop')
     ->name('shop');
@@ -12,6 +13,8 @@ Route::view('/product-detail','product-detail')->name('detail');
 Route::view('cart', 'cart')
     ->name('cart');
 
+
+Route::get('/verfiy-otp',VerifyOtp::class)->name('verfiy-otp');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
