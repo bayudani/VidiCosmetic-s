@@ -47,24 +47,28 @@ class BookingConsultation extends Component
 
         // 2. Ambil semua slot yang sudah dibooking pada tanggal yang dipilih
         $this->bookedSlots = Consultation::whereDate('scheduled_at', $this->selectedDate)
-            ->pluck('scheduled_at')
-            ->map(function ($datetime) {
-                return $datetime->format('Y-m-d H:i:s');
-            })
-            ->toArray();
+                                        ->pluck('scheduled_at')
+                                        ->map(function ($datetime) {
+                                            return $datetime->format('Y-m-d H:i:s');
+                                        })
+                                        ->toArray();
     }
 
+    // Fungsi ini sekarang hanya untuk memilih slot
     public function selectSlot(string $datetime)
     {
         $this->selectedSlot = $datetime;
     }
 
+    // Fungsi ini dipanggil oleh tombol "Book Now"
     public function bookNow()
     {
+        // Cek login
         if (!Auth::check()) {
             return $this->redirect(route('login'));
         }
 
+        // Pastikan slot sudah dipilih
         if (!$this->selectedSlot) {
             $this->dispatch('show-toast', message: 'Silakan pilih slot waktu terlebih dahulu.', type: 'error');
             return;
@@ -74,16 +78,16 @@ class BookingConsultation extends Component
             'notes' => 'nullable|string|max:500',
         ]);
 
-        
+        // Cek ulang untuk mencegah double book
         $isBooked = Consultation::where('scheduled_at', $this->selectedSlot)->exists();
         if ($isBooked) {
             $this->dispatch('show-toast', message: 'Oops! Slot ini barusan saja dipesan.', type: 'error');
-            $this->loadSlots(); 
-            $this->selectedSlot = null; 
+            $this->loadSlots(); // Refresh slot
+            $this->selectedSlot = null; // Reset pilihan
             return;
         }
 
-        
+        // Simpan booking ke database
         Consultation::create([
             'user_id' => Auth::id(),
             'scheduled_at' => $this->selectedSlot,
