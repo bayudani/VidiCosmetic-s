@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Livewire\Product;
-use App\Livewire\Traits\WithCartActions; 
+
+use App\Livewire\Traits\WithCartActions;
 
 use App\Models\Cart_item;
 use Livewire\Attributes\Layout;
-
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -13,7 +13,7 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class ProductDetail extends Component
 {
-        use WithCartActions; // <-- 2. Gunakan Trait di sini
+    use WithCartActions; // <-- 2. Gunakan Trait di sini
 
     public Product $product;
 
@@ -27,6 +27,18 @@ class ProductDetail extends Component
         $this->product = Product::with('images')->where('slug', $slug)->firstOrFail();
     }
 
+    public function buyNow()
+    {
+        if (!auth()->check()) {
+            return $this->redirect(route('login'));
+        }
+
+        // Redirect ke halaman checkout dengan product_id
+        return $this->redirect(route('checkout', [
+            'product_slug' => $this->product->slug,
+        ]), navigate: true);
+    }
+
     // public function addToCart()
     // {
     //     // 1. Cek apakah user sudah login
@@ -38,7 +50,7 @@ class ProductDetail extends Component
     //     $existingItem = Cart_item::where('user_id', Auth::id())
     //                             ->where('product_id', $this->product->id)
     //                             ->first();
-        
+
     //     if ($existingItem) {
     //         // Jika sudah ada, tambah quantity-nya
     //         $existingItem->increment('quantity');

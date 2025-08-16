@@ -41,6 +41,6 @@ trait WithCartActions
         // 4. Kirim event ke browser untuk menampilkan notifikasi (toast).
         $this->dispatch('show-toast', message: 'Produk berhasil ditambahkan ke keranjang!');
         // 5. redirect ke halaman keranjang
-        // $this->redirect(route('cart'), navigate: true);
+        $this->redirect(route('cart'), navigate: true);
     }
 }

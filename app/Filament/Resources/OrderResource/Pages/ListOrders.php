@@ -35,16 +35,16 @@ class ListOrders extends ListRecords
                 ->badge(Order::count()), // Badge angka total
 
             'pending' => Tab::make('Pending')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pending'))
-                ->badge(Order::where('status', 'pending')->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('payment_status', 'unpaid'))
+                ->badge(Order::where('payment_status', 'unpaid')->count()),
 
             'completed' => Tab::make('Selesai')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'completed'))
-                ->badge(Order::where('status', 'completed')->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('payment_status', 'paid'))
+                ->badge(Order::where('payment_status', 'paid')->count()),
 
             'cancelled' => Tab::make('Dibatalkan')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'cancelled'))
-                ->badge(Order::where('status', 'cancelled')->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('payment_status', 'failed'))
+                ->badge(Order::where('payment_status', 'failed')->count()),
         ];
     }
 }

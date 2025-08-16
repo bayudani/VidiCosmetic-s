@@ -37,8 +37,8 @@
                 </div>
             </div>
         </div>
-        <div class="mt-12 border-t border-brand-blue pt-8 text-center text-sm">
-            <p>&copy; 2024 Bloom Beauty. All Rights Reserved.</p>
+        <div class="mt-12 border-t border-white pt-8 text-center text-sm">
+            <p>&copy; 2025 Vd Cosmetic's. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

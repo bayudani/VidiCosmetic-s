@@ -85,7 +85,12 @@
             <div wire:loading.class="opacity-50" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @forelse ($products as $product)
                     <div class="bg-white rounded-lg shadow-sm p-4 text-center relative group overflow-hidden border">
-                        <img src="[https://placehold.co/300x300/FADADD/DB7093?text=](https://placehold.co/300x300/FADADD/DB7093?text=){{ urlencode($product->name) }}"
+                        @php
+                                // Cek apakah ada gambar di relasi 'images', jika ada, ambil yang pertama.
+                                // Jika tidak ada, pakai gambar utama dari tabel 'products' sebagai fallback.
+                                $displayImage = $product->images->first()->image ?? $product->image;
+                            @endphp
+                        <img src="{{ asset('storage/' . $displayImage) }}"
                             alt="{{ $product->name }}"
                             class="w-full h-56 object-cover rounded-md mb-4 transform group-hover:scale-105 transition-transform duration-300">
                         <a href="{{ route('product.detail', $product->slug) }}">

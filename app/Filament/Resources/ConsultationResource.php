@@ -20,7 +20,7 @@ class ConsultationResource extends Resource
     // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-        protected static ?string $navigationLabel = 'Jadwal Konsultasi';
+    protected static ?string $navigationLabel = 'Jadwal Konsultasi';
 
     protected static ?string $navigationGroup = 'Consultations';
     public static function canAccess(): bool
@@ -32,7 +32,7 @@ class ConsultationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\TextInput::make('user.name')
                     ->required()
                     ->numeric(),
                 Forms\Components\DateTimePicker::make('scheduled_at')
@@ -48,13 +48,16 @@ class ConsultationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('scheduled_at')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('notes')
+                    ->limit(50)
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -69,6 +72,22 @@ class ConsultationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('complete')
+                        ->label('Tandai Selesai')
+                        ->action(fn(Consultation $record) => $record->update(['status' => 'completed']))
+                        ->requiresConfirmation()
+                        ->color('success')
+                        ->icon('heroicon-o-check-circle')
+                        ->visible(fn(Consultation $record) => $record->status === 'pending'),
+                    Tables\Actions\Action::make('cancel')
+                        ->label('Batalkan')
+                        ->action(fn(Consultation $record) => $record->update(['status' => 'cancelled']))
+                        ->requiresConfirmation()
+                        ->color('danger')
+                        ->icon('heroicon-o-x-circle')
+                        ->visible(fn(Consultation $record) => $record->status === 'pending'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

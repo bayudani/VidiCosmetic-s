@@ -9,7 +9,7 @@
                         wire:key="{{ $item->id }}">
                         <div class="flex gap-6 sm:gap-4 max-sm:flex-col">
                             <div class="w-24 h-24 shrink-0">
-                                <img src="{{ $item->product->images->first()?->image ? Storage::url($item->product->images->first()->image) : '[https://placehold.co/300x300/FADADD/DB7093?text=No+Image](https://placehold.co/300x300/FADADD/DB7093?text=No+Image)' }}"
+                                <img src="{{ $item->product->images->first()?->image ? Storage::url($item->product->images->first()->image) : '[https://placehold.co/300x300/FADADD/DB7093?text=No+Image](https://placehold.co/300x300/FADADD/DB7093?text=No+Image)' }}" alt=""
                                     class="w-full h-full object-cover rounded-md" />
                             </div>
                             <div class="flex flex-col gap-4">
@@ -79,9 +79,9 @@
                         <li class="flex flex-wrap gap-4 text-lg font-semibold text-slate-900">Total <span
                                 class="ml-auto">Rp {{ number_format($total, 0, ',', '.') }}</span></li>
                     </ul>
-                    <div class="mt-8 space-y-4">
+                    <div class="mt-8">
                         <a href="{{ route('checkout') }}" wire:navigate
-                            class="text-sm px-4 py-2.5 w-full font-medium tracking-wide bg-brand-blue hover:bg-brand-blue2 text-white rounded-md">
+                            class=" block text-center text-sm px-4 py-2.5 w-full font-medium tracking-wide bg-brand-blue hover:bg-brand-blue2 text-white rounded-md">
                             Checkout
                         </a>
                     </div>

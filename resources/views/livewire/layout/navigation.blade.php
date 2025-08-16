@@ -29,10 +29,9 @@ new class extends Component {
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase">
             <a href="{{ route('shop') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Shop All</a>
-            <a href="#" class="text-gray-600 hover:text-pink-500 transition">Bestsellers</a>
-            <a href="#" class="text-gray-600 hover:text-pink-500 transition">Collection</a>
+            <a href="{{ route('consultation') }}" class="text-gray-600 hover:text-pink-500 transition"  wire:navigate>Consultation</a>
             <a href="{{ route('profile') }}" class="text-gray-600 hover:text-pink-500 transition">About Us</a>
-            <a href="#" class="text-gray-600 hover:text-pink-500 transition">Blog</a>
+            {{-- <a href="#" class="text-gray-600 hover:text-pink-500 transition">Blog</a> --}}
         </nav>
 
         <!-- Header Icons & Mobile Menu Button -->
@@ -74,8 +73,7 @@ new class extends Component {
                             <div class="px-4 py-2 text-sm text-gray-700">Hi, {{ Auth::user()->name }}</div>
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 wire:navigate>Profil Saya</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Histori
-                                Pesanan</a>
+                            <a href="{{ route('history') }}" wire:navigate class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ativitas</a>
                             <button wire:click="logout"
                                 class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 Logout
@@ -128,15 +126,13 @@ new class extends Component {
             <a href="{{ route('shop') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500"
                 wire:navigate>Shop All</a>
-            <a href="#"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Bestsellers</a>
-            <a href="#"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Collection</a>
+            <a href="{{ route('consultation') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Consultation</a>
             <a href="#"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">About
                 Us</a>
-            <a href="#"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Blog</a>
+            {{-- <a href="#"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Blog</a> --}}
 
             <!-- Auth Check untuk Mobile Menu -->
             <div class="border-t border-gray-200 pt-4 mt-4">
@@ -154,9 +150,8 @@ new class extends Component {
                         <a href="{{ route('cart') }}"
                             class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500"
                             wire:navigate>Keranjang</a>
-                        <a href="#"
-                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Histori
-                            Pesanan</a>
+                        <a href="{{ route('history') }}"
+                            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500"wire:navigate>Aktivitas</a>
                         <button wire:click="logout"
                             class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">
                             Logout
