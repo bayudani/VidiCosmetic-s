@@ -4,18 +4,22 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\BankAccount;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Order_item;
+use App\Models\OwnerProfile;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 // --- IMPORT MODEL DAN POLICY YANG DIBUTUHKAN ---
 use App\Models\Product;
 use App\Models\Product_image;
 use App\Models\Store_galery;
+use App\Policies\BankPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\GaleryPolicy;
 use App\Policies\OrderItemPolicy;
+use App\Policies\OwnerPolicy;
 use App\Policies\ProductImagePolicy;
 use App\Policies\ProductPolicy;
 // Tambahkan model dan policy lain di sini nanti, contoh:
@@ -38,6 +42,8 @@ class AuthServiceProvider extends ServiceProvider
         Order::class => OrderItemPolicy::class,
         Store_galery::class => GaleryPolicy::class,
         Product_image::class => ProductImagePolicy::class,
+        BankAccount::class =>BankPolicy::class,
+        OwnerProfile::class => OwnerPolicy::class,
         
     ];
 

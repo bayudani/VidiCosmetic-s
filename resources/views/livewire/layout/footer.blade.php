@@ -1,6 +1,6 @@
 {{-- resources/views/components/footer.blade.php --}}
 
-<footer class="bg-gray-800 text-white mt-16">
+<footer class="bg-brand-pink text-white mt-16">
     <div class="container mx-auto px-6 py-12">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="mt-12 border-t border-gray-700 pt-8 text-center text-sm">
+        <div class="mt-12 border-t border-brand-blue pt-8 text-center text-sm">
             <p>&copy; 2024 Bloom Beauty. All Rights Reserved.</p>
         </div>
     </div>

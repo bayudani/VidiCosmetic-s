@@ -47,7 +47,8 @@ new #[Layout('layouts.guest')] class extends Component {
         try {
             Mail::to($user->email)->send(new SendOtpMail($otpCode));
         } catch (\Exception $e) {
-            \Log::error($e->getMessage());    }
+            \Log::error($e->getMessage());
+        }
 
         // 4. Simpan email di session untuk halaman verifikasi
         session(['email_for_verification' => $user->email]);

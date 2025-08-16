@@ -48,6 +48,16 @@ class RolePermissionSeeder extends Seeder
             'employee: delete',
             // Reports
             'report: view',
+            // Bank Accounts
+            'bank_account: view',
+            'bank_account: create',
+            'bank_account: update',
+            'bank_account: delete',
+            // Owner Profiles
+            'owner_profile: view',
+            'owner_profile: create',
+            'owner_profile: update',
+            'owner_profile: delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -95,6 +105,16 @@ class RolePermissionSeeder extends Seeder
             'category: view',
             'gallery: view',
             'customer: view',
+            // Akses penuh untuk kelola bank
+            'bank_account: view',
+            'bank_account: create',
+            'bank_account: update',
+            'bank_account: delete',
+            // Akses penuh untuk kelola profil owner
+            'owner_profile: view',
+            'owner_profile: create',
+            'owner_profile: update',
+            'owner_profile: delete',
         ]);
 
 
@@ -106,6 +126,7 @@ class RolePermissionSeeder extends Seeder
             [
                 'name' => 'Vidi Owner',
                 'password' => Hash::make('owner123'),
+                'is_verified' => true, // Pastikan owner sudah terverifikasi
             ]
         );
         $owner->assignRole($ownerRole);
@@ -116,6 +137,7 @@ class RolePermissionSeeder extends Seeder
             [
                 'name' => 'Vidi Pegawai',
                 'password' => Hash::make('pegawai123'),
+                'is_verified' => true, // Pastikan pegawai sudah terverifikasi
             ]
         );
         $pegawai->assignRole($pegawaiRole);

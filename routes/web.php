@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Auth\VerifyOtp;
+use App\Livewire\Product\Checkout;
+use App\Livewire\Product\ProductDetail;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
@@ -9,7 +11,10 @@ Route::view('/shop','shop')
     ->name('shop');
 
 // product detail page
-Route::view('/product-detail','product-detail')->name('detail');
+Route::get('/product/{slug}', ProductDetail::class)->name('product.detail');
+Route::get('/checkout', Checkout::class)->name('checkout')->middleware('auth');
+
+
 Route::view('cart', 'cart')
     ->name('cart');
 

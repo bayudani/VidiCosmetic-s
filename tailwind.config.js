@@ -17,7 +17,8 @@ export default {
             colors: {
                 'brand-pink': '#E9A8B5',
                 'brand-pink-light': '#FCEFF2',
-                'brand-blue' :'#00A1C2'
+                'brand-blue' :'#00A1C2',
+                'brand-blue2' :'#01B0EF',
             },
         },
     },

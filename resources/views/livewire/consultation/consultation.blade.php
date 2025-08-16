@@ -38,7 +38,7 @@
                     </p>
 
                     <a href="#form-pendaftaran"
-                        class="mt-8 inline-block bg-[#333] text-white font-semibold py-3 px-10 rounded-full hover:bg-black transition-colors shadow-md hover:shadow-lg">
+                        class="mt-8 inline-block bg-brand-blue text-white font-semibold py-3 px-10 rounded-full hover:bg-brand-blue2 transition-colors shadow-md hover:shadow-lg">
                         Daftar Konsultasi Sekarang
                     </a>
                 </div>
