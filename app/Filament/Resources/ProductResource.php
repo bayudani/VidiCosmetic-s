@@ -25,7 +25,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-m-shopping-cart';
     protected static ?string $navigationLabel = 'Produk';
-    protected static ?string $navigationGroup = 'Products';
+    protected static ?string $navigationGroup = 'Produk';
 
 
     
@@ -75,7 +75,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category_id')
+                Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -88,7 +88,10 @@ class ProductResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                // filter by category
+                Tables\Filters\SelectFilter::make('category')
+                    ->relationship('category', 'name')
+                    ->label('Kategori')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

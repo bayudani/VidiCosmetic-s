@@ -22,7 +22,7 @@
 
     <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
     <style>
@@ -107,10 +107,37 @@
 
         <!-- Footer -->
         <livewire:layout.footer />
+        {{-- notif tanpa redirect --}}
+    </div>
+    <div x-data="{ show: false, message: '' }"
+        x-on:show-toast.window="
+            message = $event.detail.message;
+            show = true;
+            setTimeout(() => show = false, 3000)
+        "
+        x-show="show" x-transition:enter="transform ease-out duration-300 transition"
+        x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+        x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+        x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" style="display: none;"
+        class="fixed top-24 right-5 z-50 rounded-xl bg-green-500 px-4 py-2 text-sm text-white shadow-lg">
+        <p x-text="message"></p>
     </div>
 
-    
+    @if (session()->has('message'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" {{-- Durasinya bisa diatur --}}
+            x-transition:enter="transform ease-out duration-300 transition"
+            x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+            x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" style="display: none;"
+            class="fixed top-24 right-5 z-50 rounded-xl bg-green-500 px-4 py-2 text-sm text-white shadow-lg">
+            <p>{{ session('message') }}</p>
+        </div>
+    @endif
 
+
+    @livewireScripts
 
 </body>
 

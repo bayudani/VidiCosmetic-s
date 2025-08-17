@@ -151,6 +151,7 @@ class Checkout extends Component
         $this->dispatch('cart-updated');
         session()->flash('message', 'Pesanan Anda berhasil dibuat!');
         return $this->redirect(route('history'));
+        
     }
 
 

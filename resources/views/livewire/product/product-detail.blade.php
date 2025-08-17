@@ -59,7 +59,7 @@
                     <div class="flex gap-4 mt-8">
                         <button type="button" wire:click="addToCart({{ $product->id }})"
                             class="w-full px-4 py-3 bg-pink-500 hover:bg-pink-600 text-white text-sm font-bold rounded-md transition-colors">
-                            Add to bag
+                            Tambah ke Keranjang
                         </button>
                         <button type="button" wire:click="buyNow"
                             class="w-full px-4 py-3 bg-pink-500 hover:bg-pink-600 text-white text-sm font-bold rounded-md transition-colors">

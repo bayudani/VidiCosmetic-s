@@ -10,6 +10,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter; // <-- 1. Import SelectFilter
+use Illuminate\Database\Eloquent\Builder; //
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction; // <-- 1. Import Bulk Action
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction; // <-- 2. Import Header Action
+
 
 class OrderResource extends Resource
 {
@@ -92,10 +97,39 @@ class OrderResource extends Resource
                         'success' => 'completed',
                         'danger' => 'cancelled',
                     ]),
+                Tables\Columns\BadgeColumn::make('payment_status')
+                    ->label('Status Pembayaran')
+                    ->colors([
+                        'warning' => 'unpaid',
+                        // 'primary' => 'processing',
+                        'success' => 'paid',
+                        'danger' => 'failed',
+                    ]),
                 Tables\Columns\TextColumn::make('created_at')->label('Tanggal')->dateTime('d M Y')->sortable(),
             ])
             ->filters([
-                //
+                // === FILTER BARU DI SINI ===
+                SelectFilter::make('created_at')
+                    ->label('Tanggal Pesanan')
+                    ->options([
+                        'today' => 'Hari Ini',
+                        'week' => 'Minggu Ini',
+                        'month' => 'Bulan Ini',
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['value'],
+                            function (Builder $query, $value) {
+                                if ($value === 'today') {
+                                    $query->whereDate('created_at', today());
+                                } elseif ($value === 'week') {
+                                    $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                                } elseif ($value === 'month') {
+                                    $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]);
+                                }
+                            }
+                        );
+                    })
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Detail'),
@@ -125,7 +159,12 @@ class OrderResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export') // <-- 3. Tambahkan Aksi Ekspor Massal
                 ]),
+            ])
+            // === 4. TAMBAHKAN TOMBOL EKSPOR DI HEADER ===
+            ->headerActions([
+                FilamentExportHeaderAction::make('export')
             ]);
     }
 

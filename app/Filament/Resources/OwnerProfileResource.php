@@ -19,8 +19,8 @@ class OwnerProfileResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Settings';
-    
+    protected static ?string $navigationGroup = 'Owner Area';
+    protected static ?string $navigationLabel = 'Profil Pemilik';
     public static function form(Form $form): Form
     {
         return $form
@@ -28,17 +28,24 @@ class OwnerProfileResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(100),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(100),
+                // photo
+                Forms\Components\FileUpload::make('photo')
+                    ->label('Foto Profil')
+                    ->image()
+                    ->disk('public')
+                    ->directory('owner_profiles')
+                    ->nullable(),
+                // Forms\Components\TextInput::make('email')
+                //     ->email()
+                //     ->required()
+                //     ->maxLength(100),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required()
                     ->maxLength(20),
-                Forms\Components\TextInput::make('address')
-                    ->required()
-                    ->maxLength(200),
+                // Forms\Components\TextInput::make('address')
+                //     ->nullable()
+                //     ->maxLength(200),
             ]);
     }
 
@@ -48,12 +55,11 @@ class OwnerProfileResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
+                // photo
+                Tables\Columns\ImageColumn::make('photo')
+                    ->disk('public')
+                    ->circular()
+                    ->size(50),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -28,9 +28,9 @@ new class extends Component {
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase">
-            <a href="{{ route('shop') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Shop All</a>
-            <a href="{{ route('consultation') }}" class="text-gray-600 hover:text-pink-500 transition"  wire:navigate>Consultation</a>
-            <a href="{{ route('profile') }}" class="text-gray-600 hover:text-pink-500 transition">About Us</a>
+            <a href="{{ route('shop') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Produk</a>
+            <a href="{{ route('consultation') }}" class="text-gray-600 hover:text-pink-500 transition"  wire:navigate>Konsultasi</a>
+            <a href="{{ route('profile') }}" class="text-gray-600 hover:text-pink-500 transition">Tentang kami</a>
             {{-- <a href="#" class="text-gray-600 hover:text-pink-500 transition">Blog</a> --}}
         </nav>
 
@@ -125,12 +125,11 @@ new class extends Component {
         <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3 border-t">
             <a href="{{ route('shop') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500"
-                wire:navigate>Shop All</a>
+                wire:navigate>Produk</a>
             <a href="{{ route('consultation') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Consultation</a>
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Konsultasi</a>
             <a href="#"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">About
-                Us</a>
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Tentang kami</a>
             {{-- <a href="#"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Blog</a> --}}
 

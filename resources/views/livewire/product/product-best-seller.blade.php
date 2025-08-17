@@ -4,11 +4,11 @@
             <!-- Section Header -->
             <div class="flex justify-center items-center mb-10">
                 <div class="w-16 h-px bg-gray-300"></div>
-                <h2 class="mx-4 text-2xl md:text-3xl font-serif text-center">BEST SELLERS</h2>
+                <h2 class="mx-4 text-2xl md:text-3xl font-serif text-center">PRODUK TERLARIS</h2>
                 <div class="w-16 h-px bg-gray-300"></div>
             </div>
             <a href="{{ route('shop') }}" wire:navigate>
-                <p class="text-center text-gray-500 -mt-8 mb-12 hover:text-pink-500 transition">See All</p>
+                <p class="text-center text-gray-500 -mt-8 mb-12 hover:text-pink-500 transition">Lihat Semua</p>
             </a>
 
             <!-- Product Grid -->
@@ -39,7 +39,7 @@
                         {{-- Tombol Add to Bag --}}
                         <button
                             class="w-full py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors duration-300">
-                            Add to bag
+                            Tambah ke Keranjang
                         </button>
                     </div>
                 @empty

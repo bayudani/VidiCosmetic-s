@@ -17,12 +17,11 @@ class ConsultationResource extends Resource
 {
     protected static ?string $model = Consultation::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-    protected static ?string $navigationLabel = 'Jadwal Konsultasi';
+    protected static ?string $navigationLabel = 'Daftar Konsultasi';
+    protected static ?string $navigationGroup = 'Konsultasi';
 
-    protected static ?string $navigationGroup = 'Consultations';
     public static function canAccess(): bool
     {
         // Kembalikan true HANYA JIKA user yang sedang login punya role 'owner'.

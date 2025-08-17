@@ -101,7 +101,7 @@
                         <button
                             class="w-full py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-brand-blue hover:text-white transition-colors duration-300"
                             wire:click="addToCart({{ $product->id }})">
-                            Add to bag
+                            Tambah ke Keranjang
                         </button>
                     </div>
                 @empty

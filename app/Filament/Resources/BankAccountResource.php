@@ -20,8 +20,8 @@ class BankAccountResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-m-folder';
 
 
-    protected static ?string $navigationGroup = 'Settings';
-    
+    protected static ?string $navigationGroup = 'Owner Area';
+    protected static ?string $navigationLabel = 'Rekening Bank';
 
     public static function form(Form $form): Form
     {

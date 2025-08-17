@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->foreignId('order_id')->constrained('order_items')->onDelete('cascade');
             $table->string('order_number')->unique();
             $table->decimal('total_amount', 20, 2);
-            $table->enum('order_status', ['pending', 'completed', 'cancelled'])->default('pending'); //nnti edit ad processing
+            $table->enum('order_status', ['pending', 'completed', 'processing', 'cancelled'])->default('pending'); //nnti edit ad processing
             $table->enum('payment_status', ['unpaid', 'paid','failed'])->default('unpaid');
             $table->string('payment_method')->nullable();
             $table->text('shipping_address');

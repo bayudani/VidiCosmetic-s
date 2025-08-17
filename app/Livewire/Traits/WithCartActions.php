@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Traits;
 
 
@@ -20,9 +21,9 @@ trait WithCartActions
 
         // 2. Cek apakah produk sudah ada di keranjang user.
         $existingItem = Cart_item::where('user_id', Auth::id())
-                                ->where('product_id', $productId)
-                                ->first();
-        
+            ->where('product_id', $productId)
+            ->first();
+
         if ($existingItem) {
             // Jika sudah ada, tambah quantity-nya saja.
             $existingItem->increment('quantity');
@@ -36,11 +37,14 @@ trait WithCartActions
         }
 
         // 3. Kirim event internal untuk update komponen lain (misal: ikon cart di navbar).
-        $this->dispatch('cart-updated');
+        // $this->dispatch('cart-updated');
+        session()->flash('message', 'Produk berhasil ditambahkan ke keranjang!');
 
         // 4. Kirim event ke browser untuk menampilkan notifikasi (toast).
-        $this->dispatch('show-toast', message: 'Produk berhasil ditambahkan ke keranjang!');
-        // 5. redirect ke halaman keranjang
-        $this->redirect(route('cart'), navigate: true);
+        $this->dispatch('cart-updated');
+
+        $this->dispatch('show-toast', message: session('message'));
+
+        // $this->redirect(route('cart'), navigate: true);
     }
 }

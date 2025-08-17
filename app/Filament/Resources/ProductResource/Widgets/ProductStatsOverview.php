@@ -22,6 +22,12 @@ class ProductStatsOverview extends BaseWidget
                 ->descriptionIcon('heroicon-m-archive-box')
                 ->color('info'),
 
+            // total produk
+            Stat::make('Total Produk', Product::count())
+                ->description('Jumlah total produk yang terdaftar')
+                ->descriptionIcon('heroicon-m-cube')
+                ->color('primary'),
+
             Stat::make('Produk Stok Menipis', Product::where('stock', '<=', 5)->count())
                 ->description('Produk dengan stok 5 atau kurang')
                 ->descriptionIcon('heroicon-m-exclamation-triangle')

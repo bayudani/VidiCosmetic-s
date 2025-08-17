@@ -3,6 +3,7 @@
 namespace App\Livewire\Consultation;
 
 use App\Models\Consultation;
+use App\Models\schedules;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -15,42 +16,68 @@ class BookingConsultation extends Component
     public $bookedSlots = [];
     public $selectedDate;
     public $notes = '';
-
     // Properti baru untuk menyimpan slot yang dipilih user
     public ?string $selectedSlot = null;
+    public ?string $scheduleInfo = null;
+    public $availableDates = []; // Menyimpan tanggal-tanggal yang tersedia
+    // public ?string $selectedDate = null;
 
     public function mount()
     {
-        // Set tanggal default ke hari ini
-        $this->selectedDate = Carbon::today()->toDateString();
-        $this->loadSlots();
+        $this->loadAvailableDates();
+    }
+
+    public function loadAvailableDates()
+    {
+        $this->availableDates = [];
+        $activeDays = schedules::where('is_active', true)->pluck('day_of_week')->toArray();
+        
+        if (empty($activeDays)) return;
+
+        $date = Carbon::today();
+        $endDate = Carbon::today()->addDays(14); // Cari untuk 14 hari ke depan
+
+        while ($date <= $endDate && count($this->availableDates) < 7) { // Ambil maksimal 7 hari tersedia
+            if (in_array($date->dayOfWeek, $activeDays)) {
+                $this->availableDates[] = $date->copy();
+            }
+            $date->addDay();
+        }
     }
 
     // Fungsi ini dijalankan setiap kali $selectedDate berubah
-    public function updatedSelectedDate()
+    public function selectDate(string $dateString)
     {
-        $this->selectedSlot = null; // Reset pilihan slot jika ganti tanggal
+        $this->selectedDate = $dateString;
+        $this->selectedSlot = null; // Reset pilihan slot
         $this->loadSlots();
     }
 
     public function loadSlots()
     {
-        // 1. Tentukan slot waktu yang tersedia (misal: jam 9 pagi - 5 sore)
         $this->availableSlots = [];
-        $startTime = Carbon::parse($this->selectedDate)->setHour(9);
-        $endTime = Carbon::parse($this->selectedDate)->setHour(17);
+        $this->scheduleInfo = null;
+        $selectedCarbonDate = Carbon::parse($this->selectedDate);
 
-        while ($startTime <= $endTime) {
-            $this->availableSlots[] = $startTime->copy();
-            $startTime->addHour();
+        $schedule = schedules::where('day_of_week', $selectedCarbonDate->dayOfWeek)
+                            ->where('is_active', true)
+                            ->first();
+
+        if ($schedule) {
+            $startTime = $selectedCarbonDate->copy()->setTimeFromTimeString($schedule->start_time);
+            $endTime = $selectedCarbonDate->copy()->setTimeFromTimeString($schedule->end_time);
+
+            while ($startTime < $endTime) {
+                $this->availableSlots[] = $startTime->copy();
+                $startTime->addHour();
+            }
+        } else {
+            $this->scheduleInfo = 'Jadwal tidak ditemukan untuk hari ini.';
         }
 
-        // 2. Ambil semua slot yang sudah dibooking pada tanggal yang dipilih
         $this->bookedSlots = Consultation::whereDate('scheduled_at', $this->selectedDate)
                                         ->pluck('scheduled_at')
-                                        ->map(function ($datetime) {
-                                            return $datetime->format('Y-m-d H:i:s');
-                                        })
+                                        ->map(fn ($datetime) => $datetime->format('Y-m-d H:i:s'))
                                         ->toArray();
     }
 

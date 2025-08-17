@@ -13,6 +13,11 @@ class Transaction extends BaseWidget
     {
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
+
+        $revenue = Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->where('payment_status', 'paid')
+            ->sum('total_amount');
+
         return [
             Stat::make('Transaksi Bulan Ini', Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count())
                 ->description('Jumlah transaksi yang masuk di bulan ini')
@@ -24,15 +29,12 @@ class Transaction extends BaseWidget
                 ->descriptionIcon('heroicon-m-check-circle')
                 ->color('success'),
             // total transaksi dibatalkan
-            Stat::make('Transaksi Dibatalkan', Order::where('payment_status', 'unpaid')->count())
+            Stat::make('Transaksi Dibatalkan', Order::where('payment_status', 'failed')->count())
                 ->description('Jumlah transaksi yang dibatalkan')
                 ->descriptionIcon('heroicon-m-x-circle')
                 ->color('danger'),
-            
-            // total pendapatan (transaksi berhasil)
-            Stat::make('Pendapatan Bulan Ini', Order::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->where('payment_status', 'paid')
-                ->sum('total_amount'))
+
+            Stat::make('Pendapatan Bulan Ini', 'Rp ' . number_format($revenue, 0, ',', '.'))
                 ->description('Total pendapatan')
                 ->descriptionIcon('heroicon-m-currency-dollar')
                 ->color('success')
