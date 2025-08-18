@@ -5,21 +5,33 @@
         {{-- STEP INDICATOR --}}
         <div class="flex items-center justify-center mb-12">
             <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold {{ $currentStep >= 1 ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-500' }}">1</div>
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold {{ $currentStep >= 1 ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-500' }}">
+                    1</div>
                 {{-- Tambahkan class hidden dan sm:block di sini --}}
-                <p class="ml-3 font-semibold hidden sm:block {{ $currentStep >= 1 ? 'text-pink-500' : 'text-gray-500' }}">Pengiriman</p>
+                <p
+                    class="ml-3 font-semibold hidden sm:block {{ $currentStep >= 1 ? 'text-pink-500' : 'text-gray-500' }}">
+                    Pengiriman</p>
             </div>
             <div class="flex-auto border-t-2 mx-4 {{ $currentStep > 1 ? 'border-pink-500' : 'border-gray-200' }}"></div>
             <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold {{ $currentStep >= 2 ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-500' }}">2</div>
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold {{ $currentStep >= 2 ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-500' }}">
+                    2</div>
                 {{-- Tambahkan class hidden dan sm:block di sini --}}
-                <p class="ml-3 font-semibold hidden sm:block {{ $currentStep >= 2 ? 'text-pink-500' : 'text-gray-500' }}">Pembayaran</p>
+                <p
+                    class="ml-3 font-semibold hidden sm:block {{ $currentStep >= 2 ? 'text-pink-500' : 'text-gray-500' }}">
+                    Pembayaran</p>
             </div>
             <div class="flex-auto border-t-2 mx-4 {{ $currentStep > 2 ? 'border-pink-500' : 'border-gray-200' }}"></div>
             <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold {{ $currentStep >= 3 ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-500' }}">3</div>
+                <div
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold {{ $currentStep >= 3 ? 'bg-pink-500 text-white' : 'bg-gray-200 text-gray-500' }}">
+                    3</div>
                 {{-- Tambahkan class hidden dan sm:block di sini --}}
-                <p class="ml-3 font-semibold hidden sm:block {{ $currentStep >= 3 ? 'text-pink-500' : 'text-gray-500' }}">Selesai</p>
+                <p
+                    class="ml-3 font-semibold hidden sm:block {{ $currentStep >= 3 ? 'text-pink-500' : 'text-gray-500' }}">
+                    Selesai</p>
             </div>
         </div>
 
@@ -118,21 +130,29 @@
 
                         <div class="mt-6">
                             <label class="block text-sm font-medium text-slate-700 mb-2">Upload Bukti Transfer
-                                (Opsional)</label>
-                            <input type="file" wire:model="proof_of_transaction"
+                                </label>
+                            <input type="file" wire:model="proof_of_transaction" id="upload-proof"
                                 class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+
+                            <div wire:loading wire:target="proof_of_transaction" class="text-sm text-gray-500 mt-2">
+                                Uploading...</div>
+
+                             @if ($proof_of_transaction)
+                                <div wire:loading.remove wire:target="proof_of_transaction" class="mt-2">
+                                    <p class="text-sm text-gray-600 mb-1">Preview:</p>
+                                    <img src="{{ $proof_of_transaction->temporaryUrl() }}" class="w-32 h-32 object-cover rounded-md border">
+                                </div>
+                            @endif
                             @error('proof_of_transaction')
                                 <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                             @enderror
-                            <div wire:loading wire:target="proof_of_transaction" class="text-sm text-gray-500 mt-1">
-                                Uploading...</div>
                         </div>
                     </div>
-                    <div class="mt-8 flex justify-between">
+                    <div class="mt-8 flex flex-col sm:flex-row justify-between gap-4">
                         <button type="button" wire:click="goToPreviousStep"
-                            class="px-6 py-2.5 bg-gray-200 text-gray-700 font-semibold rounded-md hover:bg-gray-300 transition">Kembali</button>
+                            class="w-full sm:w-auto px-6 py-2.5 bg-gray-200 text-gray-700 font-semibold rounded-md hover:bg-gray-300 transition">Kembali</button>
                         <button type="button" wire:click="goToNextStep"
-                            class="px-6 py-2.5 bg-pink-500 text-white font-semibold rounded-md hover:bg-pink-600 transition">Lanjut
+                            class="w-full sm:w-auto px-6 py-2.5 bg-pink-500 text-white font-semibold rounded-md hover:bg-pink-600 transition">Lanjut
                             ke Konfirmasi</button>
                     </div>
                 </div>

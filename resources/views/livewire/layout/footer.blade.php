@@ -1,8 +1,8 @@
 {{-- resources/views/components/footer.blade.php --}}
 
-<footer class="bg-brand-pink text-white mt-16">
+<footer class="bg-brand-pink-light text-white mt-16">
     <div class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {{-- <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
                 <h4 class="font-bold mb-4">Shop</h4>
                 <ul>
@@ -36,9 +36,9 @@
                     <a href="#" aria-label="Twitter">TW</a>
                 </div>
             </div>
-        </div>
-        <div class="mt-12 border-t border-white pt-8 text-center text-sm">
-            <p>&copy; 2025 Vd Cosmetic's. All Rights Reserved.</p>
+        </div> --}}
+        <div class="mt-8 border-t border-pink-200 pt-8 text-center text-sm text-gray-600">
+            <p>&copy; {{ date('Y') }} Vd Cosmetic's. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

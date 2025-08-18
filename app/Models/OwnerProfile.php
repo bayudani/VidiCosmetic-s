@@ -11,9 +11,8 @@ class OwnerProfile extends Model
     protected $fillable = [
         'name',
         'email',
-        'phone_number',
+        'phone',
         'address',
         'photo',
     ];
-
 }

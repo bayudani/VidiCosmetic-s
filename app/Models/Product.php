@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'slug', 'price', 'stock', 'description', 'category_id'];
+    protected $fillable = ['name', 'slug', 'price', 'cost_price', 'stock', 'description', 'category_id'];
 
     /**
      * Get the category that owns the product.

@@ -28,7 +28,7 @@ class ProductResource extends Resource
     protected static ?string $navigationGroup = 'Produk';
 
 
-    
+
     public static function form(Form $form): Form
     {
         return $form
@@ -45,6 +45,10 @@ class ProductResource extends Resource
                     ->unique(Product::class, 'slug', fn($record) => $record)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
+                    ->required()
+                    ->numeric()
+                    ->prefix('Rp'),
+                Forms\Components\TextInput::make('cost_price')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
@@ -70,8 +74,11 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    // ->money('Rp')
-                    ->sortable(),
+                    ->sortable()
+                    ->money('IDR'),
+                Tables\Columns\TextColumn::make('cost_price')
+                    ->sortable()
+                    ->money('IDR'),
                 Tables\Columns\TextColumn::make('stock')
                     ->numeric()
                     ->sortable(),
