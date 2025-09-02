@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'slug', 'price', 'cost_price', 'stock', 'description', 'category_id'];
+    use HasFactory;
+    protected $fillable = ['name', 'slug', 'price', 'stock', 'description', 'category_id'];
 
     /**
      * Get the category that owns the product.
