@@ -32,11 +32,17 @@ class ConsultationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('user.name')
-                    ->required()
-                    ->numeric(),
+                    ->required(),
+                    // ->numeric(),
                 Forms\Components\DateTimePicker::make('scheduled_at')
                     ->required(),
-                Forms\Components\TextInput::make('status')
+                // select status dengan opsi 'pending', 'completed', 'cancelled'
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
+                    ])
                     ->required(),
                 Forms\Components\Textarea::make('notes')
                     ->columnSpanFull(),

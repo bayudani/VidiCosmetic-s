@@ -126,7 +126,7 @@ class RolePermissionSeeder extends Seeder
             [
                 'name' => 'Vidi Owner',
                 'password' => Hash::make('owner123'),
-                'is_verified' => true, // Pastikan owner sudah terverifikasi
+                'is_verified' => true, 
             ]
         );
         $owner->assignRole($ownerRole);
@@ -137,7 +137,7 @@ class RolePermissionSeeder extends Seeder
             [
                 'name' => 'Vidi Pegawai',
                 'password' => Hash::make('pegawai123'),
-                'is_verified' => true, // Pastikan pegawai sudah terverifikasi
+                'is_verified' => true,
             ]
         );
         $pegawai->assignRole($pegawaiRole);

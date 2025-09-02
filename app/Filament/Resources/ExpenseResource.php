@@ -30,6 +30,10 @@ class ExpenseResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('expense_category_id')
+                    ->label('Kategori Pengeluaran')
+                    ->relationship('category', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('description')->label('Keterangan')->required(),
                 Forms\Components\TextInput::make('amount')->label('Jumlah')->numeric()->prefix('Rp')->required(),
                 Forms\Components\DatePicker::make('expense_date')->label('Tanggal Pengeluaran')->required()->default(now()),
@@ -41,6 +45,7 @@ class ExpenseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('expense_date')->label('Tanggal')->date('d M Y')->sortable(),
+                Tables\Columns\TextColumn::make('category.name')->label('Kategori Pengeluaran')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('description')->label('Keterangan')->searchable(),
                 Tables\Columns\TextColumn::make('amount')->label('Jumlah')->money('IDR')->sortable(),
             ])

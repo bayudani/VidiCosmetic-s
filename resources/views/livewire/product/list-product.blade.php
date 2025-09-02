@@ -86,23 +86,28 @@
                 @forelse ($products as $product)
                     <div class="bg-white rounded-lg shadow-sm p-4 text-center relative group overflow-hidden border">
                         @php
-                                // Cek apakah ada gambar di relasi 'images', jika ada, ambil yang pertama.
-                                // Jika tidak ada, pakai gambar utama dari tabel 'products' sebagai fallback.
-                                $displayImage = $product->images->first()->image ?? $product->image;
-                            @endphp
-                        <img src="{{ asset('storage/' . $displayImage) }}"
-                            alt="{{ $product->name }}"
+                            // Cek apakah ada gambar di relasi 'images', jika ada, ambil yang pertama.
+                            // Jika tidak ada, pakai gambar utama dari tabel 'products' sebagai fallback.
+                            $displayImage = $product->images->first()->image ?? $product->image;
+                        @endphp
+                        <img src="{{ asset('storage/' . $displayImage) }}" alt="{{ $product->name }}"
                             class="w-full h-56 object-cover rounded-md mb-4 transform group-hover:scale-105 transition-transform duration-300">
                         <a href="{{ route('product.detail', $product->slug) }}">
                             <h3 class="font-semibold text-md truncate">{{ $product->name }}</h3>
                         </a>
                         <p class="text-xs text-gray-500 my-2 truncate">{{ Str::limit($product->description, 40) }}</p>
                         <p class="font-bold my-2 text-pink-500">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                        <button
-                            class="w-full py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-brand-blue hover:text-white transition-colors duration-300"
-                            wire:click="addToCart({{ $product->id }})">
-                            Tambah ke Keranjang
-                        </button>
+                        @if ($product->stock > 0)
+                            <button type="button" wire:click.stop="addToCart({{ $product->id }})"
+                                class="w-full mt-2 py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors duration-300">
+                                Add to bag
+                            </button>
+                        @else
+                            <button type="button" disabled
+                                class="w-full mt-2 py-2 border border-gray-200 bg-gray-100 text-gray-400 rounded-md text-sm font-semibold cursor-not-allowed">
+                                Stok Habis
+                            </button>
+                        @endif
                     </div>
                 @empty
                     <div class="col-span-full text-center text-gray-500 py-20">

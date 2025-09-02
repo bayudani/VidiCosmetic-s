@@ -13,9 +13,14 @@ class Expense extends Model
         'description',
         'amount',
         'expense_date',
+        'expense_category_id',
     ];
 
     protected $casts = [
         'expense_date' => 'date',
     ];
+    public function category()
+    {
+        return $this->belongsTo(expenseCategorie::class, 'expense_category_id');
+    }
 }

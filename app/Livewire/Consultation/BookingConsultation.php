@@ -4,10 +4,13 @@ namespace App\Livewire\Consultation;
 
 use App\Models\Consultation;
 use App\Models\schedules;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use App\Notifications\NewConsultationNotification;
+use Illuminate\Support\Facades\Notification; // <-- TAMBAHKAN
 
 #[Layout('layouts.app')]
 class BookingConsultation extends Component
@@ -16,7 +19,6 @@ class BookingConsultation extends Component
     public $bookedSlots = [];
     public $selectedDate;
     public $notes = '';
-    // Properti baru untuk menyimpan slot yang dipilih user
     public ?string $selectedSlot = null;
     public ?string $scheduleInfo = null;
     public $availableDates = []; // Menyimpan tanggal-tanggal yang tersedia
@@ -31,7 +33,7 @@ class BookingConsultation extends Component
     {
         $this->availableDates = [];
         $activeDays = schedules::where('is_active', true)->pluck('day_of_week')->toArray();
-        
+
         if (empty($activeDays)) return;
 
         $date = Carbon::today();
@@ -60,8 +62,8 @@ class BookingConsultation extends Component
         $selectedCarbonDate = Carbon::parse($this->selectedDate);
 
         $schedule = schedules::where('day_of_week', $selectedCarbonDate->dayOfWeek)
-                            ->where('is_active', true)
-                            ->first();
+            ->where('is_active', true)
+            ->first();
 
         if ($schedule) {
             $startTime = $selectedCarbonDate->copy()->setTimeFromTimeString($schedule->start_time);
@@ -76,9 +78,9 @@ class BookingConsultation extends Component
         }
 
         $this->bookedSlots = Consultation::whereDate('scheduled_at', $this->selectedDate)
-                                        ->pluck('scheduled_at')
-                                        ->map(fn ($datetime) => $datetime->format('Y-m-d H:i:s'))
-                                        ->toArray();
+            ->pluck('scheduled_at')
+            ->map(fn($datetime) => $datetime->format('Y-m-d H:i:s'))
+            ->toArray();
     }
 
     // Fungsi ini sekarang hanya untuk memilih slot
@@ -115,12 +117,19 @@ class BookingConsultation extends Component
         }
 
         // Simpan booking ke database
-        Consultation::create([
+        $consultation = Consultation::create([
             'user_id' => Auth::id(),
             'scheduled_at' => $this->selectedSlot,
             'notes' => $this->notes,
             'status' => 'pending',
         ]);
+
+        try {
+            $adminsAndStaff = User::whereHas('roles', fn($q) => $q->where('name', 'owner'))->get();
+            Notification::send($adminsAndStaff, new NewConsultationNotification($consultation->id));
+        } catch (\Exception $e) {
+            \Log::error('Gagal mengirim notifikasi konsultasi baru: ' . $e->getMessage());
+        }
 
         // Kirim notifikasi sukses
         $this->dispatch('show-toast', message: 'Jadwal konsultasi berhasil dibooking!');

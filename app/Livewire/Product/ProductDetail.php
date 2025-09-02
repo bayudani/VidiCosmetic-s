@@ -32,6 +32,14 @@ class ProductDetail extends Component
         if (!auth()->check()) {
             return $this->redirect(route('login'));
         }
+        // Cek stok produk
+        if ($this->product->stock <= 0) {
+            session()->flash('error', 'Produk tidak tersedia atau stok habis.');
+            $this->dispatch('show-toast', message: session('error'));
+            return;
+        }
+        // Tambahkan produk ke keranjang
+        // $this->addToCart($this->product->id);
 
         // Redirect ke halaman checkout dengan product_id
         return $this->redirect(route('checkout', [

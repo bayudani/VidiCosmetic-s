@@ -4,6 +4,7 @@ namespace App\Livewire\Traits;
 
 
 use App\Models\Cart_item;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 trait WithCartActions
@@ -19,6 +20,14 @@ trait WithCartActions
             return $this->redirect(route('login'), navigate: true);
         }
 
+        // cek stok
+        $product = Product::find($productId);
+        if (!$product || $product->stock <= 0) {
+            session()->flash('error', 'Produk tidak tersedia atau stok habis.');
+            $this->dispatch('show-toast', message: session('error'));
+            return;
+        }
+
         // 2. Cek apakah produk sudah ada di keranjang user.
         $existingItem = Cart_item::where('user_id', Auth::id())
             ->where('product_id', $productId)
@@ -26,7 +35,14 @@ trait WithCartActions
 
         if ($existingItem) {
             // Jika sudah ada, tambah quantity-nya saja.
-            $existingItem->increment('quantity');
+            // Cek apakah nambah 1 lagi masih cukup stoknya
+            if ($product->stock > $existingItem->quantity) {
+                $existingItem->increment('quantity');
+                $this->dispatch('show-toast', message: 'Jumlah produk di keranjang ditambah!');
+            } else {
+                $this->dispatch('show-toast', message: 'Stok tidak mencukupi.', type: 'error');
+                return;
+            }
         } else {
             // Jika belum ada, buat item baru di keranjang.
             Cart_item::create([

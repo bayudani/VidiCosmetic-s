@@ -9,12 +9,15 @@ use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
-use Livewire\WithFileUploads; // <-- Import untuk upload file
+use Livewire\WithFileUploads;
+use App\Notifications\NewOrderNotification;
+use Illuminate\Support\Facades\Notification;
 
 
 #[Layout('layouts.app')]
@@ -69,7 +72,9 @@ class Checkout extends Component
                 ];
             }
         }
-        if (empty($this->items)) { return $this->redirect(route('shop')); }
+        if (empty($this->items)) {
+            return $this->redirect(route('shop'));
+        }
         $this->customer_name = Auth::user()->name;
         $this->calculateTotals();
     }
@@ -113,6 +118,14 @@ class Checkout extends Component
 
     public function placeOrder()
     {
+        foreach ($this->items as $item) {
+            $product = Product::find($item['product_id']);
+            if ($product->stock < $item['quantity']) {
+                // Jika stok berubah saat user di halaman checkout
+                session()->flash('error', "Stok untuk produk '{$item['product_name']}' tidak mencukupi.");
+                return $this->redirect(route('cart'));
+            }
+        }
         // Validasi data
         $this->validate([
             'customer_name' => 'required|string|max:255',
@@ -147,14 +160,27 @@ class Checkout extends Component
             ]);
             Product::find($item['product_id'])->decrement('stock', $item['quantity']);
         }
-        if (!$this->product_slug) { Cart_item::where('user_id', Auth::id())->delete(); }
+        if (!$this->product_slug) {
+            Cart_item::where('user_id', Auth::id())->delete();
+        }
+
+
+        // Kirim notifikasi ke admin
+        try {
+            // 1. Ambil semua user yang punya role 'owner' atau 'admin'
+            $admins = User::whereHas('roles', fn($q) => $q->whereIn('name', ['owner','pegawai']))->get();
+            // dd($admins);
+            // 2. Kirim notifikasi ke mereka
+            Notification::send($admins, new NewOrderNotification($order->id));
+        } catch (\Exception $e) {
+            //tangani jika pengiriman notif gagal, tapi jangan hentikan user
+            \Log::error('Gagal mengirim notifikasi pesanan baru: ' . $e->getMessage());
+        }
+
         $this->dispatch('cart-updated');
         session()->flash('message', 'Pesanan Anda berhasil dibuat!');
         return $this->redirect(route('history'));
-        
     }
-
-
     public function incrementQuantity(int $itemIndex)
     {
         if (isset($this->items[$itemIndex]) && $this->items[$itemIndex]['quantity'] < $this->items[$itemIndex]['stock']) {

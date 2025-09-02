@@ -40,11 +40,17 @@
                         </p>
 
                         {{-- Tombol Add to Bag --}}
-                        <button
-                            class="w-full py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-brand-blue hover:text-white transition-colors duration-300"
-                            wire:click="addToCart({{ $product->id }})">
-                            Tambah ke Keranjang
-                        </button>
+                        @if ($product->stock > 0)
+                            <button type="button" wire:click.stop="addToCart({{ $product->id }})"
+                                class="w-full mt-2 py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors duration-300">
+                                Add to bag
+                            </button>
+                        @else
+                            <button type="button" disabled
+                                class="w-full mt-2 py-2 border border-gray-200 bg-gray-100 text-gray-400 rounded-md text-sm font-semibold cursor-not-allowed">
+                                Stok Habis
+                            </button>
+                        @endif
                     </div>
                 @empty
                     {{-- Tampilkan pesan ini jika tidak ada produk sama sekali --}}
@@ -54,7 +60,7 @@
                 @endforelse
             </div>
         </div>
-        {{-- Global Toast Notification --}}
+        {{-- Global Toast Notification
         <div x-data="{ show: false, message: '' }"
             @show-toast.window="message = $event.detail.message; show = true; setTimeout(() => show = false, 3000)"
             x-show="show" x-transition:enter="transition ease-out duration-300"
@@ -66,6 +72,6 @@
             class="fixed top-24 right-5 bg-green-500 text-white py-2 px-4 rounded-xl text-sm shadow-lg z-50"
             style="display: none;">
             <span x-text="message"></span>
-        </div>
+        </div> --}}
     </section>
 </div>

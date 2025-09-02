@@ -17,14 +17,14 @@
                 @forelse ($products as $product)
                     <div class="bg-white rounded-lg shadow-sm p-4 text-center relative group overflow-hidden">
                         {{-- Gambar Produk --}}
-                        <a href="#" class="block">
+                        <a href="{{ route('product.detail', $product->slug) }}">
                             <img src="[https://placehold.co/300x300/FADADD/DB7093?text=](https://placehold.co/300x300/FADADD/DB7093?text=){{ urlencode($product->name) }}"
                                 alt="{{ $product->name }}"
                                 class="w-full h-56 object-cover rounded-md mb-4 transform group-hover:scale-105 transition-transform duration-300">
-                        </a>
 
-                        {{-- Nama Produk --}}
-                        <h3 class="font-semibold text-md truncate">{{ $product->name }}</h3>
+                            {{-- Nama Produk --}}
+                            <h3 class="font-semibold text-md truncate">{{ $product->name }}</h3>
+                        </a>
 
                         {{-- Deskripsi Singkat --}}
                         <p class="text-xs text-gray-500 my-2 truncate">
@@ -37,10 +37,17 @@
                         </p>
 
                         {{-- Tombol Add to Bag --}}
-                        <button
-                            class="w-full py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors duration-300">
-                            Tambah ke Keranjang
-                        </button>
+                        @if ($product->stock > 0)
+                            <button type="button" wire:click.stop="addToCart({{ $product->id }})"
+                                class="w-full mt-2 py-2 border border-gray-300 rounded-md text-sm font-semibold hover:bg-gray-900 hover:text-white transition-colors duration-300">
+                                Add to bag
+                            </button>
+                        @else
+                            <button type="button" disabled
+                                class="w-full mt-2 py-2 border border-gray-200 bg-gray-100 text-gray-400 rounded-md text-sm font-semibold cursor-not-allowed">
+                                Stok Habis
+                            </button>
+                        @endif
                     </div>
                 @empty
                     <div class="col-span-full text-center text-gray-500 py-10">

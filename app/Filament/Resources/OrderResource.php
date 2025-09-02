@@ -4,16 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Models\Order;
-use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Tables\Filters\SelectFilter; // <-- 1. Import SelectFilter
-use Illuminate\Database\Eloquent\Builder; //
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction; // <-- 1. Import Bulk Action
-use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction; // <-- 2. Import Header Action
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class OrderResource extends Resource
@@ -27,6 +27,11 @@ class OrderResource extends Resource
     public static function canCreate(): bool
     {
         return false;
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['user', 'items.product']);
     }
 
     public static function form(Form $form): Form
@@ -62,10 +67,9 @@ class OrderResource extends Resource
                             Forms\Components\Repeater::make('items')
                                 ->relationship()
                                 ->schema([
-                                    // === PERBAIKAN LOADING LAMBAT DI SINI ===
                                     Forms\Components\Select::make('product_id')
                                         ->label('Produk')
-                                        ->relationship('product', 'name') // Gunakan relationship, jauh lebih cepat!
+                                        ->relationship('product', 'name')
                                         ->searchable()
                                         ->disabled(),
                                     Forms\Components\TextInput::make('quantity')->numeric()->disabled(),
@@ -101,14 +105,29 @@ class OrderResource extends Resource
                     ->label('Status Pembayaran')
                     ->colors([
                         'warning' => 'unpaid',
-                        // 'primary' => 'processing',
                         'success' => 'paid',
                         'danger' => 'failed',
                     ]),
                 Tables\Columns\TextColumn::make('created_at')->label('Tanggal')->dateTime('d M Y')->sortable(),
             ])
             ->filters([
-                // === FILTER BARU DI SINI ===
+
+                SelectFilter::make('order_status')
+                    ->label('Status Pesanan')
+                    ->options([
+                        'pending' => 'Pending',
+                        'processing' => 'Processing',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
+                    ]),
+                SelectFilter::make('payment_status')
+                    ->label('Status Pembayaran')
+                    ->options([
+                        'unpaid' => 'Unpaid',
+                        'paid' => 'Paid',
+                        'failed' => 'Failed',
+                    ]),
+
                 SelectFilter::make('created_at')
                     ->label('Tanggal Pesanan')
                     ->options([
@@ -134,7 +153,6 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Detail'),
                 Tables\Actions\EditAction::make()->label('Ubah Status'),
-                // === TOMBOL AKSI BARU & PERBAIKAN ===
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('confirm_payment')
                         ->label('Konfirmasi Pembayaran')
@@ -151,35 +169,46 @@ class OrderResource extends Resource
                         ->color('primary')
                         ->icon('heroicon-o-truck')
                         ->visible(fn(Order $record) => $record->order_status === 'pending'),
-                    Tables\Actions\EditAction::make(),
-
-
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    FilamentExportBulkAction::make('export') // <-- 3. Tambahkan Aksi Ekspor Massal
+                    FilamentExportBulkAction::make('export')
                 ]),
             ])
-            // === 4. TAMBAHKAN TOMBOL EKSPOR DI HEADER ===
             ->headerActions([
                 FilamentExportHeaderAction::make('export')
+                    ->label('Ekspor Laporan')
+                    ->withColumns([
+                        Tables\Columns\TextColumn::make('items_list')
+                            ->label('Rincian Produk')
+                            ->getStateUsing(function (Order $record) {
+                                if (!$record->relationLoaded('items')) {
+                                    $record->load('items.product');
+                                }
+                                return $record->items->map(function ($item) {
+                                    return "{$item->product->name} (x{$item->quantity})";
+                                })->implode('; ');
+                            }),
+                        // GRAND TOTAL hanya ada di paling bawah
+                        Tables\Columns\TextColumn::make('grand_total')->label('Grand Total')->getStateUsing(function (Order $record) {
+                            return Order::sum('total_amount');
+                        })
+                    ])
+                   
             ]);
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            // 'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }

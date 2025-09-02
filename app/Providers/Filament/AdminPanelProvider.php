@@ -28,10 +28,11 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile()
-            ->favicon(asset('assets/img/iconVD.png')) 
+            ->favicon(asset('assets/img/iconVD.png'))
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Vd Cosmetics')
-
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('15s')
             ->colors([
                 'primary' => Color::Amber,
             ])

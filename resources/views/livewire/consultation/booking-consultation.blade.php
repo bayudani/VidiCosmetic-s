@@ -12,11 +12,12 @@
                             type="button"
                             wire:click="selectDate('{{ $date->toDateString() }}')"
                             class="px-4 py-2 rounded-lg text-center font-semibold transition border-2
-                                   {{ $selectedDate == $date->toDateString() 
-                                       ? 'bg-pink-500 text-white border-pink-500' 
-                                       : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300' }}">
-                            <span class="block text-sm">{{ $date->format('l') }}</span>
-                            <span class="block text-lg">{{ $date->format('d M') }}</span>
+                                {{ $selectedDate == $date->toDateString() 
+                                    ? 'bg-pink-500 text-white border-pink-500' 
+                                    : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300' }}">
+                            {{-- Ganti format jadi translatedFormat --}}
+                            <span class="block text-sm">{{ $date->translatedFormat('l') }}</span>
+                            <span class="block text-lg">{{ $date->translatedFormat('d M') }}</span>
                         </button>
                     @empty
                         <div class="w-full text-center text-gray-500 bg-yellow-50 p-4 rounded-md">
@@ -29,7 +30,8 @@
             {{-- Daftar Slot Waktu (Hanya muncul jika tanggal dipilih) --}}
             @if ($selectedDate)
                 <div class="border-t pt-6">
-                    <h2 class="text-xl font-semibold text-slate-800 border-b pb-4">Pilih Slot Waktu untuk {{ \Carbon\Carbon::parse($selectedDate)->format('d M Y') }}</h2>
+                    {{-- Ganti format jadi translatedFormat --}}
+                    <h2 class="text-xl font-semibold text-slate-800 border-b pb-4">Pilih Slot Waktu untuk {{ \Carbon\Carbon::parse($selectedDate)->translatedFormat('d M Y') }}</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
                         @if ($scheduleInfo)
                             <div class="col-span-full text-center text-gray-500 bg-yellow-50 p-4 rounded-md">
@@ -48,9 +50,9 @@
                                     wire:click="selectSlot('{{ $slotString }}')"
                                     @if($isBooked || $isPast) disabled @endif
                                     class="p-4 rounded-md text-center font-semibold transition
-                                           @if($isBooked || $isPast) bg-gray-200 text-gray-400 cursor-not-allowed
-                                           @elseif($selectedSlot == $slotString) bg-pink-500 text-white ring-2 ring-offset-2 ring-pink-500
-                                           @else bg-pink-100 text-pink-700 hover:bg-pink-200 border border-pink-200 @endif">
+                                        @if($isBooked || $isPast) bg-gray-200 text-gray-400 cursor-not-allowed
+                                        @elseif($selectedSlot == $slotString) bg-pink-500 text-white ring-2 ring-offset-2 ring-pink-500
+                                        @else bg-pink-100 text-pink-700 hover:bg-pink-200 border border-pink-200 @endif">
                                     {{ $slot->format('H:i') }}
                                 </button>
                             @empty
