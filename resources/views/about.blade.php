@@ -56,11 +56,11 @@
                     const rotateX = (y - height / 2) / height * 20; // max rotasi 10 deg
                     $data.rotateY = rotateY.toFixed(2);
                     $data.rotateX = rotateX.toFixed(2);
-                 "
+                "
                         @mouseleave="
                     rotateX = 0;
                     rotateY = 0;
-                 ">
+                ">
                         <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=1000"
                             alt="Produk Vd Cosmetics"
                             class="w-full max-w-md rounded-2xl shadow-2xl transition-transform duration-200 ease-out"
@@ -134,7 +134,7 @@
                             </svg>
                         </div>
                         <h4 class="text-lg font-semibold text-gray-900 mb-2">Pengiriman Cepat</h4>
-                        <p class="text-gray-600 text-sm">Same day delivery untuk area (nanti sesuaikan)</p>
+                        <p class="text-gray-600 text-sm">Same day delivery untuk area Pasaman</p>
                     </div>
 
                     <div class="text-center group">

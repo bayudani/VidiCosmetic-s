@@ -28,24 +28,30 @@ new class extends Component {
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase">
-            <a href="{{ route('shop') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Produk</a>
-            <a href="{{ route('consultation') }}" class="text-gray-600 hover:text-pink-500 transition"  wire:navigate>Konsultasi</a>
-            <a href="{{ route('about') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Tentang kami</a>
-            {{-- <a href="#" class="text-gray-600 hover:text-pink-500 transition">Blog</a> --}}
+            <a href="{{ route('shop') }}"
+                class="{{ request()->routeIs('shop') ? 'text-pink-500 font-semibold' : 'text-gray-600 hover:text-pink-500' }} transition"
+                wire:navigate>
+                Produk
+            </a>
+
+            <a href="{{ route('consultation') }}"
+                class="{{ request()->routeIs('consultation') ? 'text-pink-500 font-semibold' : 'text-gray-600 hover:text-pink-500' }} transition"
+                wire:navigate>
+                Konsultasi
+            </a>
+
+            <a href="{{ route('about') }}"
+                class="{{ request()->routeIs('about') ? 'text-pink-500 font-semibold' : 'text-gray-600 hover:text-pink-500' }} transition"
+                wire:navigate>
+                Tentang Kami
+            </a>
         </nav>
 
         <!-- Header Icons & Mobile Menu Button -->
         <div class="flex items-center space-x-4">
             <!-- Desktop Icons -->
             <div class="hidden md:flex items-center space-x-5">
-                {{-- <a href="#" class="text-gray-600 hover:text-pink-500 transition">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.3-4.3" />
-                    </svg>
-                </a> --}}
+
 
                 <!-- Auth Check untuk Ikon User (Desktop) -->
                 @auth
@@ -73,7 +79,8 @@ new class extends Component {
                             <div class="px-4 py-2 text-sm text-gray-700">Hi, {{ Auth::user()->name }}</div>
                             <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 wire:navigate>Profil Saya</a>
-                            <a href="{{ route('history') }}" wire:navigate class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ativitas</a>
+                            <a href="{{ route('history') }}" wire:navigate
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ativitas</a>
                             <button wire:click="logout"
                                 class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 Logout
@@ -82,12 +89,11 @@ new class extends Component {
                     </div>
                     <a href="{{ route('cart') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <circle cx="8" cy="21" r="1" />
                             <circle cx="19" cy="21" r="1" />
-                            <path
-                                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
                         </svg>
                     </a>
                 @else
@@ -124,12 +130,25 @@ new class extends Component {
     <div x-show="mobileMenuOpen" class="md:hidden" style="display: none;">
         <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3 border-t">
             <a href="{{ route('shop') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500"
-                wire:navigate>Produk</a>
+                class="block px-3 py-2 rounded-md text-base font-medium 
+       {{ request()->routeIs('shop') ? 'text-pink-500 font-semibold bg-pink-50' : 'text-gray-700 hover:text-white hover:bg-pink-500' }}"
+                wire:navigate>
+                Produk
+            </a>
+
             <a href="{{ route('consultation') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Konsultasi</a>
+                class="block px-3 py-2 rounded-md text-base font-medium 
+       {{ request()->routeIs('consultation') ? 'text-pink-500 font-semibold bg-pink-50' : 'text-gray-700 hover:text-white hover:bg-pink-500' }}"
+                wire:navigate>
+                Konsultasi
+            </a>
+
             <a href="{{ route('about') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Tentang kami</a>
+                class="block px-3 py-2 rounded-md text-base font-medium 
+       {{ request()->routeIs('about') ? 'text-pink-500 font-semibold bg-pink-50' : 'text-gray-700 hover:text-white hover:bg-pink-500' }}"
+                wire:navigate>
+                Tentang Kami
+            </a>
             {{-- <a href="#"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Blog</a> --}}
 
