@@ -1,4 +1,4 @@
-<div>
+<div class="">
     <div class="relative flex min-h-screen">
         {{-- Overlay untuk mobile --}}
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 lg:hidden hidden"></div>
@@ -82,7 +82,7 @@
                 Show Filters
             </button>
 
-            <div wire:loading.class="opacity-50" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div wire:loading.class="opacity-50" class=" grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @forelse ($products as $product)
                     <div class="bg-white rounded-lg shadow-sm p-4 text-center relative group overflow-hidden border">
                         @php

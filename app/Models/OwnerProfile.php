@@ -17,5 +17,6 @@ class OwnerProfile extends Model
         'phone',
         'address',
         'photo',
+        'quotes',
     ];
 }

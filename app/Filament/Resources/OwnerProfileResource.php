@@ -17,7 +17,7 @@ class OwnerProfileResource extends Resource
 {
     protected static ?string $model = OwnerProfile::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-user-circle';
 
     protected static ?string $navigationGroup = 'Owner Area';
     protected static ?string $navigationLabel = 'Profil Pemilik';
@@ -35,10 +35,10 @@ class OwnerProfileResource extends Resource
                     ->disk('public')
                     ->directory('owner_profiles')
                     ->nullable(),
-                // Forms\Components\TextInput::make('email')
-                //     ->email()
-                //     ->required()
-                //     ->maxLength(100),
+                Forms\Components\Textarea::make('quotes')
+                    ->label('Quotes')
+                    ->nullable()
+                    ->rows(3),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required()
@@ -60,6 +60,12 @@ class OwnerProfileResource extends Resource
                     ->disk('public')
                     ->circular()
                     ->size(50),
+                Tables\Columns\TextColumn::make('phone'),
+                Tables\Columns\TextColumn::make('quotes')
+                    ->label('Quotes')
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

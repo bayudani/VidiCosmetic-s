@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('owner_profiles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 100);
-            // $table->string('email', 100)->unique();
-            $table->string('phone', 20);
-            // $table->string('address', 200);
-            $table->timestamps();
+        Schema::table('owner_profiles', function (Blueprint $table) {
+            $table->text('quotes')->nullable()->after('name');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('owner_profiles');
+        Schema::table('owner_profiles', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -110,7 +110,6 @@
         {{-- notif tanpa redirect --}}
 
         @php
-            // === PERUBAHAN DI SINI ===
             // 1. Ambil data profil owner dari database
             $ownerProfile = \App\Models\OwnerProfile::first();
 

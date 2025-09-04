@@ -30,7 +30,7 @@ new class extends Component {
         <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase">
             <a href="{{ route('shop') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Produk</a>
             <a href="{{ route('consultation') }}" class="text-gray-600 hover:text-pink-500 transition"  wire:navigate>Konsultasi</a>
-            <a href="{{ route('profile') }}" class="text-gray-600 hover:text-pink-500 transition">Tentang kami</a>
+            <a href="{{ route('about') }}" class="text-gray-600 hover:text-pink-500 transition" wire:navigate>Tentang kami</a>
             {{-- <a href="#" class="text-gray-600 hover:text-pink-500 transition">Blog</a> --}}
         </nav>
 
@@ -128,7 +128,7 @@ new class extends Component {
                 wire:navigate>Produk</a>
             <a href="{{ route('consultation') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Konsultasi</a>
-            <a href="#"
+            <a href="{{ route('about') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Tentang kami</a>
             {{-- <a href="#"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-pink-500">Blog</a> --}}
